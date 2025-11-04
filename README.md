@@ -35,6 +35,22 @@ AetherLearn is a concept-stage, AI-powered study companion for Android focused o
 1. Install dependencies: `cd app && npm install` (requires Node 18+).
 2. Run on Android emulator or device: `npx expo start --android`.
 3. Use Expo Go for quick previews during prototyping.
+4. Run the project in a browser: `npm run web`.
+
+## Web & Netlify Deployment
+The Expo project is configured for static web export so it can be hosted on Netlify or any other static host.
+
+### Local web build
+- From the `app/` directory run `npm run build:web`.
+- The production-ready static site is emitted to `app/dist/`.
+
+### Netlify configuration
+- **Base directory:** *(leave blank; `netlify.toml` installs dependencies from `app/` automatically)*
+- **Build command:** `npm install --prefix app && npm run --prefix app build:web`
+- **Publish directory:** `app/dist`
+- **Node version (optional environment variable):** `NODE_VERSION=18`
+
+These settings are codified in `netlify.toml` so Netlify can automatically detect them on deploy.
 
 > **Note:** API hooks reference placeholder endpoints. Connect them to your backend orchestration layer for full functionality.
 

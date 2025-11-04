@@ -28,6 +28,10 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#0B0D21"
       }
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.svg"
     }
   }
 }
