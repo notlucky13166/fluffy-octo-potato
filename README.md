@@ -56,9 +56,13 @@ The Expo project is configured for static web export so it can be hosted on Netl
 - **Base directory:** *(leave blank; `netlify.toml` installs dependencies from `app/` automatically)*
 - **Build command:** `npm install --prefix app && npm run --prefix app build:web`
 - **Publish directory:** `app/dist`
-- **Node version (optional environment variable):** `NODE_VERSION=18`
+- **Environment variables:**
+  - `EXPO_PUBLIC_SUPABASE_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co`
+  - `EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implcmt2eHZ4ZHJneGpjcmZ2aHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjkyOTUsImV4cCI6MjA3NzkwNTI5NX0.zTPCDHxuYuqTYG3chGOOnycF_NuvtMpsB1eXWIC6r_8`
+  - `EXPO_PUBLIC_FUNCTIONS_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co/functions/v1`
+  - `EXPO_PUBLIC_SUPABASE_STORAGE_BUCKET=study-uploads`
 
-These settings are codified in `netlify.toml` so Netlify can automatically detect them on deploy.
+These settings are codified in `netlify.toml`, so Netlify auto-detects the build and pre-populates the public Supabase environment keys. If you prefer managing secrets in the dashboard, add the same variables under **Site settings → Environment variables**. See [`docs/netlify.md`](docs/netlify.md) for a full walkthrough of the Netlify deployment flow.
 
 > **Note:** API hooks reference Supabase Edge Functions (see `docs/backend.md`) that stay within the free tier while powering AI generation.
 

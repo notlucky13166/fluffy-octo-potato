@@ -145,14 +145,17 @@ Follow these steps to connect the Expo client to your Supabase project and enabl
 4. Optional: turn on **Confirm email** to require users to click the magic link before accessing protected tabs.
 
 ## 3. Environment variables for the Expo app
-1. Create an `.env` file (ignored by git) at the repo root:
+1. The repository now includes a ready-to-use `.env` at the root with the public Supabase credentials:
    ```env
    EXPO_PUBLIC_SUPABASE_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co
    EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implcmt2eHZ4ZHJneGpjcmZ2aHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjkyOTUsImV4cCI6MjA3NzkwNTI5NX0.zTPCDHxuYuqTYG3chGOOnycF_NuvtMpsB1eXWIC6r_8
    EXPO_PUBLIC_FUNCTIONS_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co/functions/v1
+   EXPO_PUBLIC_SUPABASE_STORAGE_BUCKET=study-uploads
    ```
 
-2. Ensure `app/app.json` (or `app.config.ts`) reads the variables through `expo-constants`. The current project already expects `extra.supabaseUrl`, `extra.supabaseAnonKey`, and `extra.functionsUrl`.
+   Update the values if you fork the project or switch Supabase projects.
+
+2. The Expo config (`app/app.config.ts`) reads the variables through `expo-constants`, so the client and Netlify builds receive the same URLs and keys.
 3. Restart the Expo server after editing environment variables so the new values load.
 
 ## 4. Connect the client
