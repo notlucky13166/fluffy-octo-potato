@@ -41,6 +41,10 @@ AetherLearn is a concept-stage, AI-powered study companion for Android focused o
 3. Use Expo Go for quick previews during prototyping.
 4. Run the project in a browser: `npm run web`.
 
+### Configure Supabase & magic link auth
+- Follow the step-by-step guide in [`docs/supabase-setup.md`](docs/supabase-setup.md) to connect the client to Supabase, enable magic link authentication, and provision the storage buckets/tables the app expects.
+- Populate an `.env` file with your Supabase project URL, anon key, and functions URL before running the client so API calls succeed.
+
 ## Web & Netlify Deployment
 The Expo project is configured for static web export so it can be hosted on Netlify or any other static host.
 
