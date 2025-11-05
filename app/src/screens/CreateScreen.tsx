@@ -19,6 +19,8 @@ const CreateScreen: React.FC = () => {
   const selectFolder = useContentStore((state) => state.selectFolder);
   const addFilesToFolder = useContentStore((state) => state.addFilesToFolder);
   const removeFileFromFolder = useContentStore((state) => state.removeFileFromFolder);
+  const setFolderInsights = useContentStore((state) => state.setFolderInsights);
+  const addCollaborator = useContentStore((state) => state.addCollaborator);
   const activeFolderId = useContentStore((state) => state.activeFolderId);
   const { mutateAsync: generateFlashcards, isLoading: flashcardsLoading } = useGenerateFlashcards();
   const { mutateAsync: generateQuiz, isLoading: quizLoading } = useGenerateQuiz();
@@ -26,6 +28,7 @@ const CreateScreen: React.FC = () => {
   const [folderMessage, setFolderMessage] = useState<string | null>(null);
   const [newFolderName, setNewFolderName] = useState('Exam Prep Library');
   const [newFolderDescription, setNewFolderDescription] = useState('Drop PDFs, slides, and images for this subject.');
+  const [collaboratorEmail, setCollaboratorEmail] = useState('');
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
   const selectedFolder = useMemo(
@@ -35,6 +38,10 @@ const CreateScreen: React.FC = () => {
 
   const fileCount = selectedFolder?.files.length ?? 0;
   const displayedFiles = selectedFolder?.files ?? [];
+  const folderInsights = selectedFolder?.insights;
+  const followUps = folderInsights?.followUps ?? [];
+  const focusAreas = folderInsights?.focusAreas ?? [];
+  const isGenerating = flashcardsLoading || quizLoading;
 
   useEffect(() => {
     if (selectedFolder && !subject.trim()) {
@@ -86,6 +93,21 @@ const CreateScreen: React.FC = () => {
     setNewFolderDescription('');
   };
 
+  const handleAddCollaborator = () => {
+    if (!selectedFolder) {
+      setStatus('Choose a folder before inviting collaborators.');
+      return;
+    }
+    const trimmed = collaboratorEmail.trim();
+    if (!trimmed) {
+      setStatus('Add an email or username to share this folder.');
+      return;
+    }
+    addCollaborator(selectedFolder.id, trimmed);
+    setCollaboratorEmail('');
+    setStatus(`Invite sent to ${trimmed}.`);
+  };
+
   const requireFolderSelection = () => {
     if (!selectedFolder) {
       setFolderMessage('Create or select a folder before uploading study material.');
@@ -134,7 +156,10 @@ const CreateScreen: React.FC = () => {
         notes,
         folderId: selectedFolder.id
       });
-      addFlashcards(flashcardResponse.flashcards);
+      addFlashcards(flashcardResponse.flashcards, selectedFolder.id, {
+        flashcardSummary: flashcardResponse.summary,
+        followUps: flashcardResponse.insights
+      });
       const quizResponse = await generateQuiz({
         subject,
         difficulty: 'adaptive',
@@ -142,7 +167,16 @@ const CreateScreen: React.FC = () => {
         references: selectedFolder.files,
         folderId: selectedFolder.id
       });
-      addQuestions(quizResponse.questions);
+      addQuestions(quizResponse.questions, selectedFolder.id, {
+        quizSummary: quizResponse.summary,
+        focusAreas: quizResponse.recommendedFocus
+      });
+      setFolderInsights(selectedFolder.id, {
+        flashcardSummary: flashcardResponse.summary,
+        followUps: flashcardResponse.insights,
+        quizSummary: quizResponse.summary,
+        focusAreas: quizResponse.recommendedFocus
+      });
       setStatus('Content ready! Review in Practice tab.');
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Something went wrong.');
@@ -290,19 +324,85 @@ const CreateScreen: React.FC = () => {
       ) : null}
 
       <TouchableOpacity
-        disabled={flashcardsLoading || quizLoading}
+        disabled={isGenerating}
         onPress={handleGenerate}
-        style={[
-          styles.generateButton,
-          { backgroundColor: colors.primary, opacity: flashcardsLoading || quizLoading ? 0.7 : 1 }
-        ]}
+        style={[styles.generateButton, { backgroundColor: colors.primary, opacity: isGenerating ? 0.7 : 1 }]}
       >
         <Text style={{ color: '#fff', textAlign: 'center', fontWeight: '600' }}>
-          {flashcardsLoading || quizLoading ? 'Generating...' : 'Generate study kit'}
+          {isGenerating ? 'Generating...' : 'Generate study kit'}
         </Text>
       </TouchableOpacity>
 
       {status ? <Text style={{ color: colors.secondary, marginTop: spacing.md }}>{status}</Text> : null}
+
+      {selectedFolder ? (
+        <View style={{ marginTop: spacing.xl }}>
+          <Text style={[styles.label, { color: colors.muted }]}>Collaborators</Text>
+          <View style={[styles.collaboratorRow, { backgroundColor: colors.surface }]}> 
+            <TextInput
+              value={collaboratorEmail}
+              onChangeText={setCollaboratorEmail}
+              placeholder="Email or username"
+              placeholderTextColor={colors.muted}
+              style={{ flex: 1, color: colors.text }}
+            />
+            <TouchableOpacity style={[styles.inviteButton, { backgroundColor: colors.secondary }]} onPress={handleAddCollaborator}>
+              <Ionicons name="send" size={16} color="#fff" />
+            </TouchableOpacity>
+          </View>
+          {selectedFolder.collaborators.length ? (
+            <View style={styles.collaboratorList}>
+              {selectedFolder.collaborators.map((person) => (
+                <View key={person} style={[styles.collaboratorChip, { backgroundColor: colors.primary + '22' }]}> 
+                  <Ionicons name="person-circle" size={16} color={colors.primary} />
+                  <Text style={{ color: colors.primary, marginLeft: 6 }}>{person}</Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+        </View>
+      ) : null}
+
+      {folderInsights ? (
+        <View style={{ marginTop: spacing.xl }}>
+          <Text style={[styles.label, { color: colors.muted }]}>AI summary</Text>
+          <LinearGradient
+            colors={[colors.surface, colors.secondary + '22']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[styles.insightsCard, { padding: spacing.lg }]}
+          >
+            {folderInsights.flashcardSummary ? (
+              <Text style={{ color: colors.text, fontWeight: '600' }}>{folderInsights.flashcardSummary}</Text>
+            ) : (
+              <Text style={{ color: colors.muted }}>Run a generation to receive a tailored summary.</Text>
+            )}
+            {focusAreas.length ? (
+              <View style={{ marginTop: spacing.md }}>
+                <Text style={{ color: colors.text, fontWeight: '600' }}>Focus areas</Text>
+                <View style={styles.focusRow}>
+                  {focusAreas.map((area) => (
+                    <View key={area} style={[styles.focusPill, { backgroundColor: colors.accent + '22' }]}> 
+                      <Text style={{ color: colors.accent }}>{area}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            ) : null}
+            {followUps.length ? (
+              <View style={{ marginTop: spacing.md }}>
+                <Text style={{ color: colors.text, fontWeight: '600' }}>Follow-up tasks</Text>
+                {followUps.map((item) => (
+                  <View key={item} style={styles.followUpRow}>
+                    <Ionicons name="sparkles" size={14} color={colors.primary} />
+                    <Text style={{ color: colors.text, marginLeft: 8 }}>{item}</Text>
+                  </View>
+                ))}
+              </View>
+            ) : null}
+          </LinearGradient>
+        </View>
+      ) : null}
 
       <View style={[styles.infoBanner, { backgroundColor: colors.surface, borderColor: colors.primary + '33' }]}> 
         <Ionicons name="shield-checkmark-outline" size={18} color={colors.primary} />
@@ -403,6 +503,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12
   },
+  collaboratorRow: {
+    marginTop: 12,
+    borderRadius: 16,
+    padding: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12
+  },
+  inviteButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  collaboratorList: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12
+  },
+  collaboratorChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12
+  },
   folderHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -440,6 +568,25 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 10,
     marginBottom: 8
+  },
+  insightsCard: {
+    borderRadius: 20
+  },
+  focusRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 8
+  },
+  focusPill: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 12
+  },
+  followUpRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 8
   }
 });
 

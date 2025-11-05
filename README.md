@@ -4,12 +4,14 @@ AetherLearn is a concept-stage, AI-powered study companion for Android focused o
 
 ## Highlights
 - **Custom Quiz Generator** – Adaptive question pipeline supporting multiple formats.
-- **AI Flashcard Creator** – Upload notes or textbook snapshots to auto-generate flashcards, summaries, and insights.
-- **Study folders & uploads** – Organize PDFs, images, and slide decks per subject so the AI can build targeted quizzes.
+- **AI Flashcard Creator** – Upload notes or textbook snapshots to auto-generate flashcards, summaries, follow-up actions, and insights.
+- **Study folders & uploads** – Organize PDFs, images, and slide decks per subject so the AI can build targeted quizzes and shared decks.
+- **Spaced repetition planner** – Adaptive review queue with due counts, mastery analytics, and timeline guidance for every folder.
+- **Folder mastery dashboards** – AI summaries, focus areas, and collaborator tracking surface progress at a glance.
 - **Image-first ingestion** – Vision-friendly upload flow for diagrams, handwriting, and slides.
 - **Bite-sized lessons** – Daily schedule with micro-learning recommendations and instant summaries.
 - **Progress intelligence** – Radar charts, streak tracking, and mastery analytics.
-- **Gamification & collaboration** – Badges, streaks, community challenges, shared decks, and live group quizzes.
+- **Gamification & collaboration** – Badges, streaks, community challenges, invite-based study folders, and live group quizzes.
 
 ## Project Structure
 ```

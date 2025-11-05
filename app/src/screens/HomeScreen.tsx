@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, ScrollView, View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, { useEffect, useMemo, useRef } from 'react';
+import { Animated, ScrollView, View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useDashboardQuery } from '../api/hooks';
@@ -9,6 +9,19 @@ import { useTheme } from '../theme/ThemeProvider';
 import { useProgressStore } from '../store/useProgressStore';
 import { useContentStore } from '../store/useContentStore';
 import { buildDailySchedule } from '../utils/schedule';
+
+const featureShortcuts = [
+  { icon: 'scan-outline' as const, title: 'AI Scanner', gradient: ['#F97316', '#FB923C'] },
+  { icon: 'create-outline' as const, title: 'AI Summary', gradient: ['#22C55E', '#4ADE80'] },
+  { icon: 'newspaper-outline' as const, title: 'Mock Exam', gradient: ['#0EA5E9', '#38BDF8'] },
+  { icon: 'sparkles-outline' as const, title: 'Quiz Creator', gradient: ['#8B5CF6', '#A855F7'] }
+];
+
+const suggestionPrompts = [
+  'Explain neural plasticity in simple terms',
+  'Quiz me on 19th century art',
+  'Summarize the carbon cycle PDF'
+];
 
 const HomeScreen: React.FC = () => {
   const { colors, spacing, typography } = useTheme();
@@ -44,34 +57,24 @@ const HomeScreen: React.FC = () => {
 
   const isCompact = width < 768;
 
-  const totalReferences = folders.reduce((count, folder) => count + folder.files.length, 0);
+  const totalReferences = useMemo(
+    () => folders.reduce((count, folder) => count + folder.files.length, 0),
+    [folders]
+  );
 
-  const featureCards = [
-    {
-      icon: 'sparkles-outline' as const,
-      title: 'AI flashcards, free forever',
-      description: 'Generate unlimited decks and quizzes without paywalls or tokens.'
-    },
-    {
-      icon: 'image-outline' as const,
-      title: 'Study from any image',
-      description: 'Upload diagrams or handwritten notes to turn visuals into practice prompts.'
-    },
-    {
-      icon: 'phone-portrait-outline' as const,
-      title: 'Built for web & mobile',
-      description: 'A single experience that feels at home on phones, tablets, and desktops.'
-    }
-  ];
+  const totalDue = useMemo(
+    () => folders.reduce((count, folder) => count + (folder.mastery?.due ?? 0), 0),
+    [folders]
+  );
+
+  const collaboratorCount = useMemo(
+    () => folders.reduce((count, folder) => count + folder.collaborators.length, 0),
+    [folders]
+  );
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: colors.background }} contentContainerStyle={{ padding: spacing.xl }}>
-      <LinearGradient
-        colors={[colors.primary, colors.secondary]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[styles.hero, { padding: spacing.xl }]}
-      >
+      <LinearGradient colors={['#0B1120', '#1E1B4B', '#3B0764']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.hero, { padding: spacing.xl }]}> 
         <Animated.View
           style={{
             opacity: fadeIn,
@@ -82,29 +85,51 @@ const HomeScreen: React.FC = () => {
             <Ionicons name="planet" size={16} color="#fff" />
             <Text style={styles.heroBadgeText}>AetherLearn is 100% free to create with AI</Text>
           </View>
-          <Text style={[styles.heading, { color: '#fff', fontSize: typography.fontSize.xxl + 8 }]}>Your cosmic study co-pilot</Text>
-          <Text style={[styles.heroCopy, { color: 'rgba(255,255,255,0.85)', marginTop: spacing.md }]}>
-            Build flashcards and adaptive quizzes from notes, images, and lectures in seconds. Our AI toolkit is free on web and mobile.
-          </Text>
-          <View style={[styles.heroActions, { marginTop: spacing.lg }]}> 
-            <TouchableOpacity style={[styles.primaryAction, { paddingVertical: spacing.md }]}> 
-              <Text style={styles.primaryActionText}>Start a free study kit</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.secondaryAction, { paddingVertical: spacing.md }]}> 
-              <Text style={styles.secondaryActionText}>See how it works</Text>
-            </TouchableOpacity>
+          <Text style={[styles.heroPrompt, { color: '#fff', fontSize: typography.fontSize.xxl + 4 }]}>How can I help you?</Text>
+          <View style={styles.suggestionColumn}>
+            {suggestionPrompts.map((prompt) => (
+              <View key={prompt} style={styles.suggestionPill}>
+                <Text style={{ color: 'rgba(255,255,255,0.85)', fontSize: typography.fontSize.sm }}>{prompt}</Text>
+              </View>
+            ))}
+          </View>
+          <View style={styles.promptBar}>
+            <Ionicons name="add" size={18} color="rgba(255,255,255,0.7)" />
+            <Text style={{ color: 'rgba(255,255,255,0.7)', flex: 1, marginLeft: 10 }}>Ask anything…</Text>
+            <View style={styles.promptIcons}>
+              <Ionicons name="image-outline" size={18} color="#fff" />
+              <Ionicons name="mic-outline" size={18} color="#fff" style={{ marginLeft: 12 }} />
+            </View>
           </View>
         </Animated.View>
-        <View style={styles.heroGlow}>
-          <LinearGradient
-            colors={[`${colors.background}00`, 'rgba(255,255,255,0.25)', `${colors.background}00`]}
-            style={styles.heroGlowInner}
-          />
-        </View>
       </LinearGradient>
 
       <Animated.View style={{ opacity: fadeIn, transform: [{ translateY: heroTranslate }] }}>
-        <View style={[styles.cardGrid, { marginTop: spacing.xl }]}> 
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingVertical: spacing.lg, paddingHorizontal: spacing.xl }}
+          style={{ marginHorizontal: -spacing.xl }}
+        >
+          <View style={styles.shortcutRow}>
+            {featureShortcuts.map((feature) => (
+              <LinearGradient
+                key={feature.title}
+                colors={feature.gradient}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[styles.shortcutCard, { padding: spacing.md }]}
+              >
+                <View style={styles.shortcutIcon}>
+                  <Ionicons name={feature.icon} size={20} color="#fff" />
+                </View>
+                <Text style={{ color: '#fff', fontWeight: '600', marginTop: spacing.sm }}>{feature.title}</Text>
+              </LinearGradient>
+            ))}
+          </View>
+        </ScrollView>
+
+        <View style={[styles.cardGrid, { marginTop: spacing.xl }]}>
           <DashboardCard
             title="Streak"
             value={`${streak} days`}
@@ -113,42 +138,24 @@ const HomeScreen: React.FC = () => {
             style={{ flexBasis: isCompact ? '100%' : '48%' }}
           />
           <DashboardCard
-            title="Mastery"
-            value="68%"
-            subtitle="Up 6% this week"
+            title="Reviews due"
+            value={totalDue.toString()}
+            subtitle="Spaced for today"
             accentColor={colors.secondary}
             style={{ flexBasis: isCompact ? '100%' : '48%' }}
           />
+          <DashboardCard
+            title="Collaborators"
+            value={collaboratorCount.toString()}
+            subtitle="Friends in your study nebula"
+            accentColor={colors.primary}
+            style={{ flexBasis: '100%' }}
+          />
         </View>
 
-        <View style={[styles.section, { backgroundColor: colors.surface, padding: spacing.lg }]}> 
+        <View style={[styles.section, { backgroundColor: colors.surface, padding: spacing.lg }]}>
           <Text style={[styles.sectionTitle, { color: colors.text }]}>Skill constellation</Text>
           <ProgressChart data={mastery} />
-        </View>
-
-        <View style={{ marginTop: spacing.xl }}>
-          <Text style={[styles.sectionTitle, { color: colors.text }]}>Why learners love AetherLearn</Text>
-          <View style={[styles.featureGrid, { marginTop: spacing.md }]}>
-            {featureCards.map((feature) => (
-              <View
-                key={feature.title}
-                style={[
-                  styles.featureCard,
-                  {
-                    backgroundColor: colors.surface,
-                    padding: spacing.lg,
-                    flexBasis: isCompact ? '100%' : '31%'
-                  }
-                ]}
-              >
-                <View style={[styles.featureIcon, { backgroundColor: colors.primary + '22' }]}> 
-                  <Ionicons name={feature.icon} size={20} color={colors.primary} />
-                </View>
-                <Text style={[styles.featureTitle, { color: colors.text }]}>{feature.title}</Text>
-                <Text style={{ color: colors.muted, marginTop: spacing.sm }}>{feature.description}</Text>
-              </View>
-            ))}
-          </View>
         </View>
 
         <View style={{ marginTop: spacing.xl }}>
@@ -158,7 +165,7 @@ const HomeScreen: React.FC = () => {
               {folders.slice(0, 3).map((folder) => (
                 <LinearGradient
                   key={folder.id}
-                  colors={[colors.surface, colors.secondary + '22']}
+                  colors={[colors.surface, colors.primary + '22']}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={[styles.libraryCard, { padding: spacing.lg }]}
@@ -173,9 +180,29 @@ const HomeScreen: React.FC = () => {
                   {folder.description ? (
                     <Text style={{ color: colors.muted, marginTop: 4 }}>{folder.description}</Text>
                   ) : null}
-                  <Text style={{ color: colors.secondary, marginTop: spacing.sm }}>
-                    {folder.files.length} reference{folder.files.length === 1 ? '' : 's'} synced for AI study kits
-                  </Text>
+                  <View style={styles.libraryMetaRow}>
+                    <View style={styles.libraryPill}>
+                      <Ionicons name="time-outline" size={14} color={colors.secondary} />
+                      <Text style={{ color: colors.secondary, marginLeft: 6, fontSize: 12 }}>{folder.mastery.due} due</Text>
+                    </View>
+                    <View style={styles.libraryPill}>
+                      <Ionicons name="document-text-outline" size={14} color={colors.primary} />
+                      <Text style={{ color: colors.primary, marginLeft: 6, fontSize: 12 }}>{folder.files.length} files</Text>
+                    </View>
+                    {folder.collaborators.length ? (
+                      <View style={styles.libraryPill}>
+                        <Ionicons name="people-outline" size={14} color={colors.accent} />
+                        <Text style={{ color: colors.accent, marginLeft: 6, fontSize: 12 }}>
+                          {folder.collaborators.length} collaborators
+                        </Text>
+                      </View>
+                    ) : null}
+                  </View>
+                  {folder.insights?.flashcardSummary ? (
+                    <Text style={{ color: colors.muted, marginTop: spacing.sm }} numberOfLines={2}>
+                      {folder.insights.flashcardSummary}
+                    </Text>
+                  ) : null}
                 </LinearGradient>
               ))}
               {folders.length > 3 ? (
@@ -188,7 +215,7 @@ const HomeScreen: React.FC = () => {
               </Text>
             </View>
           ) : (
-            <View style={[styles.libraryEmpty, { backgroundColor: colors.surface, padding: spacing.lg }]}> 
+            <View style={[styles.libraryEmpty, { backgroundColor: colors.surface, padding: spacing.lg }]}>
               <Ionicons name="folder-open" size={22} color={colors.secondary} />
               <Text style={{ color: colors.text, fontWeight: '600', marginTop: spacing.sm }}>Create your first folder</Text>
               <Text style={{ color: colors.muted, marginTop: 4, textAlign: 'center' }}>
@@ -239,7 +266,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: 'hidden',
     position: 'relative',
-    minHeight: 240
+    minHeight: 260
   },
   heroBadge: {
     alignSelf: 'flex-start',
@@ -256,45 +283,47 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 13
   },
-  heroCopy: {
-    lineHeight: 22
+  heroPrompt: {
+    fontWeight: '700',
+    marginTop: 18
   },
-  heroActions: {
+  suggestionColumn: {
+    marginTop: 16,
+    gap: 10
+  },
+  suggestionPill: {
+    backgroundColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 16
+  },
+  promptBar: {
+    marginTop: 20,
+    backgroundColor: 'rgba(15,23,42,0.7)',
+    borderRadius: 20,
+    paddingHorizontal: 18,
+    paddingVertical: 14,
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12
+    alignItems: 'center'
   },
-  primaryAction: {
-    backgroundColor: '#fff',
-    borderRadius: 999,
-    paddingHorizontal: 20
+  promptIcons: {
+    flexDirection: 'row'
   },
-  primaryActionText: {
-    color: '#000',
-    fontWeight: '700'
+  shortcutRow: {
+    flexDirection: 'row',
+    gap: 16
   },
-  secondaryAction: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.6)',
-    paddingHorizontal: 20
+  shortcutCard: {
+    borderRadius: 24,
+    width: 140
   },
-  secondaryActionText: {
-    color: '#fff',
-    fontWeight: '600'
-  },
-  heroGlow: {
-    position: 'absolute',
-    right: -60,
-    bottom: -60,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
-    overflow: 'hidden'
-  },
-  heroGlowInner: {
-    width: '100%',
-    height: '100%'
+  shortcutIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   cardGrid: {
     flexDirection: 'row',
@@ -317,27 +346,6 @@ const styles = StyleSheet.create({
     marginTop: 12,
     borderRadius: 18
   },
-  featureGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 16
-  },
-  featureCard: {
-    borderRadius: 20,
-    flexGrow: 1
-  },
-  featureIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 12
-  },
-  featureTitle: {
-    fontWeight: '600',
-    fontSize: 16
-  },
   libraryCard: {
     borderRadius: 20,
     marginBottom: 12
@@ -354,6 +362,20 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  libraryMetaRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 12
+  },
+  libraryPill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 14,
+    backgroundColor: 'rgba(15,23,42,0.08)'
   },
   libraryEmpty: {
     borderRadius: 20,
