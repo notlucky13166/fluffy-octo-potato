@@ -12,13 +12,63 @@ Follow these steps to connect the Expo client to your Supabase project and enabl
    > ⚠️ **Never commit the service role key** to git or ship it inside the client—store it only in server-side environments (Edge Functions, backend jobs, CI secrets).
 
 3. In **Storage → Buckets**, create a bucket named `study-uploads` (public access disabled). This bucket matches the path conventions referenced in the Create screen.
-4. In **Database → Tables**, create the following tables (or import the provided SQL migration if you have one):
-   - `study_folders` – stores folder metadata (`id`, `name`, `subject`, `created_by`, `created_at`).
-   - `study_files` – stores file records per folder (`id`, `folder_id`, `path`, `content_type`, `pages`, `created_at`).
-   - `generated_flashcards` – stores generated flashcards (`id`, `folder_id`, `prompt`, `answer`, `difficulty`, `created_at`).
-   - `generated_quizzes` – stores quiz questions (`id`, `folder_id`, `question`, `choices`, `answer`, `difficulty`, `created_at`).
-   - `flashcard_reviews` – tracks spaced-repetition metadata (`flashcard_id`, `ease_factor`, `interval_days`, `next_review_at`, `last_reviewed_at`).
-   - `supporter_waitlist` – optional table for donation opt-ins (`id`, `user_id`, `tier`, `note`, `created_at`).
+4. In **Database → Tables**, create the following tables (or import the provided SQL migration if you have one). The inline SQL shows the recommended column types the UI and Edge Functions expect:
+
+   ```sql
+   create table public.study_folders (
+     id uuid primary key default gen_random_uuid(),
+     name text not null,
+     subject text,
+     created_by uuid references auth.users not null,
+     created_at timestamptz not null default now()
+   );
+
+   create table public.study_files (
+     id uuid primary key default gen_random_uuid(),
+     folder_id uuid references public.study_folders(id) on delete cascade not null,
+     path text not null,
+     content_type text not null,
+     pages integer,
+     created_at timestamptz not null default now()
+   );
+
+   create table public.generated_flashcards (
+     id uuid primary key default gen_random_uuid(),
+     folder_id uuid references public.study_folders(id) on delete cascade not null,
+     prompt text not null,
+     answer text not null,
+     difficulty text check (difficulty in ('easy','medium','hard')) default 'medium',
+     summary text,
+     follow_up_tasks text,
+     created_at timestamptz not null default now()
+   );
+
+   create table public.generated_quizzes (
+     id uuid primary key default gen_random_uuid(),
+     folder_id uuid references public.study_folders(id) on delete cascade not null,
+     question text not null,
+     choices jsonb,
+     answer text not null,
+     difficulty text check (difficulty in ('easy','medium','hard')) default 'medium',
+     created_at timestamptz not null default now()
+   );
+
+   create table public.flashcard_reviews (
+     flashcard_id uuid references public.generated_flashcards(id) on delete cascade primary key,
+     ease_factor numeric(4,2) not null default 2.5,
+     interval_days integer not null default 1,
+     next_review_at timestamptz not null,
+     last_reviewed_at timestamptz
+   );
+
+   create table public.supporter_waitlist (
+     id uuid primary key default gen_random_uuid(),
+     user_id uuid references auth.users on delete cascade,
+     tier text,
+     note text,
+     created_at timestamptz not null default now()
+   );
+   ```
 
 5. Enable Row Level Security on each table and add policies that allow:
    - Authenticated users to `select` their own data.
