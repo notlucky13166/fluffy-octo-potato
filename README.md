@@ -12,6 +12,7 @@ AetherLearn is a concept-stage, AI-powered study companion for Android focused o
 - **Bite-sized lessons** – Daily schedule with micro-learning recommendations and instant summaries.
 - **Progress intelligence** – Radar charts, streak tracking, and mastery analytics.
 - **Gamification & collaboration** – Badges, streaks, community challenges, invite-based study folders, and live group quizzes.
+- **Mission-driven access** – Narrative sign-in/sign-up flows that reinforce the free-for-everyone mission with optional supporter pledges for future upgrades.
 
 ## Project Structure
 ```
@@ -58,7 +59,8 @@ These settings are codified in `netlify.toml` so Netlify can automatically detec
 > **Note:** API hooks reference Supabase Edge Functions (see `docs/backend.md`) that stay within the free tier while powering AI generation.
 
 ## Next Steps
-- Integrate authentication and secure storage.
+- Connect the new auth flow to Supabase Auth and secure storage.
+- Wire optional supporter pledges to a payment provider while keeping experiences free-first.
 - Connect React Query hooks to real AI services.
 - Implement progress persistence and offline caching.
 - Add Detox E2E tests and CI automation.

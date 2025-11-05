@@ -15,6 +15,7 @@ AetherLearn stays 100% free by leaning on a managed, usage-based stack that has 
 4. **Cost controls** – Schedule a nightly job that summarizes token usage per user. Because Supabase’s free tier includes generous storage (1 GB) and Edge Function compute, keeping uploads under 100 MB per folder maintains a $0 bill.
 5. **Real-time updates** – Use Supabase Realtime to broadcast when an AI job finishes so the Practice tab refreshes automatically.
 6. **Review telemetry** – Store spaced-repetition events (`ease_factor`, `interval_days`, `next_review_at`) in a `flashcard_reviews` table so folder mastery dashboards and collaborator activity feeds stay in sync across devices.
+7. **Supporter pledges** – Track optional donation intents in a lightweight `supporter_waitlist` table so the product can invite learners to contribute later without affecting the free core experience. When you introduce payments, route them through Stripe Checkout or Supabase Functions to capture recurring pledges securely.
 
 ## Local configuration
 
