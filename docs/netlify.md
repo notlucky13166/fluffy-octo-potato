@@ -14,6 +14,7 @@ Netlify reads the commands from `netlify.toml`, but double-check the settings du
 - **Build command:** `npm install && npm run build:web`
 - **Publish directory:** `dist`
 - **Node version:** Netlify picks up `NODE_VERSION=18` from the config file. Adjust if you require a different runtime.
+- **Web dependencies:** The project expects Expo’s web runtime. Ensure `@expo/metro-runtime@~3.1.3` (or the matching version for your Expo SDK) remains listed in `package.json` so Netlify installs it during the build.
 
 ## 3. Add environment variables
 The public Supabase keys are already stored in `netlify.toml`. You can also manage them from the dashboard:
