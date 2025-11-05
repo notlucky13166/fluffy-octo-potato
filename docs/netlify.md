@@ -8,12 +8,16 @@ Follow these steps to publish the Expo web build on Netlify with the supplied Su
 3. Select the `work` branch (or whichever branch you wish to deploy).
 
 ## 2. Configure build settings
-Netlify reads the commands from `netlify.toml`, but double-check the settings during the import flow:
+Netlify reads the commands from `netlify.toml`, but double-check the settings during the import flow (or on **Site settings → Build & deploy → Continuous deployment**):
 
-- **Base directory:** `app`
-- **Build command:** `npm install && npm run build:web`
-- **Publish directory:** `dist`
-- **Node version:** Netlify picks up `NODE_VERSION=18` from the config file. Adjust if you require a different runtime.
+| Netlify field | Required value | Notes |
+| --- | --- | --- |
+| **Base directory / Package directory** | `app` | Points Netlify at the Expo project. Leaving it blank makes Netlify look for `package.json` in the repo root and the build fails. |
+| **Build command** | `npm install && npm run build:web` | The second half triggers Expo’s static export. Using only `npm install` will skip the export and Netlify has nothing to publish. |
+| **Publish directory** | `dist` | This is resolved relative to the base directory, so Netlify serves `app/dist`. |
+| **Functions directory** | leave blank | Serverless logic lives in Supabase Edge Functions, so there is no `app/netlify/functions` folder to deploy. |
+| **Node version** | `18` | Netlify picks this up from `netlify.toml`, but you can set it explicitly if you prefer. |
+
 - **Web dependencies:** The project expects Expo’s web runtime. Ensure `@expo/metro-runtime@~3.1.3` (or the matching version for your Expo SDK) remains listed in `package.json` so Netlify installs it during the build.
 
 ## 3. Add environment variables
