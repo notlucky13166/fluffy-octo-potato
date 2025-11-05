@@ -74,7 +74,9 @@ Follow these steps to connect the Expo client to your Supabase project and enabl
    - Authenticated users to `select` their own data.
    - Insert/update/delete only for rows where `created_by = auth.uid()` (or matching folder ownership).
 
-6. Head to **Edge Functions** and deploy the functions backing the app’s generators. A quick way to do this is with the [Supabase CLI](https://supabase.com/docs/reference/cli/start):
+6. Head to **Edge Functions** and deploy the functions backing the app’s generators. You have two options depending on whether you can install software on your computer:
+
+   **Option A – Supabase CLI (requires installing the CLI):**
 
    1. Install the CLI (`npm install -g supabase`) and authenticate with your project: `supabase login`.
    2. Inside this repository (or an empty folder), scaffold the functions that match the routes the Expo app calls:
@@ -111,7 +113,30 @@ Follow these steps to connect the Expo client to your Supabase project and enabl
       supabase functions deploy generator/quiz --project-ref jerkvxvxdrgxjcrfvhpn
       ```
 
-   If you prefer the Supabase dashboard, you can create functions there with the same names, paste the handler code, add the secrets under **Config → Environment Variables**, and click **Deploy**. Either way, the service role key is used server-side (via `SUPABASE_SERVICE_ROLE_KEY`) to pull files from Storage, run AI extraction (Supabase AI GPT-4o mini), and persist generated content.
+   **Option B – Supabase Dashboard only (no installs needed):**
+
+   1. Open **Project → Edge Functions** in the Supabase dashboard and click **Create a new function**.
+   2. Name the first function `generator/flashcards`, set the deployment target to **Region: closest to your users**, and choose **Create from scratch**.
+   3. Paste your handler code directly into the in-browser editor. The code should:
+      - Parse `folderId`, `subject`, and `notes` from the incoming request.
+      - Use the service role key (provided via secrets in the next step) to read files from the `study-uploads` bucket.
+      - Call Supabase AI’s GPT-4o mini to analyze PDFs/images and create flashcards.
+      - Upsert rows into `generated_flashcards` and `flashcard_reviews`.
+   4. Click the **Config** tab → **Environment Variables** and add the following key/value pairs:
+
+      | Key | Value |
+      | --- | --- |
+      | `SUPABASE_URL` | `https://jerkvxvxdrgxjcrfvhpn.supabase.co` |
+      | `SUPABASE_SERVICE_ROLE_KEY` | `<service-role-key>` |
+      | `OPENAI_API_KEY` | `<supabase-ai-or-openai-key>` |
+
+      Replace the placeholder values with the real credentials (they stay server-side).
+
+   5. Press **Save** and then **Deploy**. Supabase will assign the HTTPS URL automatically (`/functions/v1/generator/flashcards`).
+   6. Repeat the same steps for a second function named `generator/quiz`. The only change in the handler is that the generated output writes rows into `generated_quizzes` instead of flashcards.
+   7. After both functions deploy, use the **Logs** tab to confirm successful invocations and adjust code inline without downloading any tools.
+
+   Either path keeps the service role key confined to server-side storage (via `SUPABASE_SERVICE_ROLE_KEY`) so it can pull files from Storage, run AI extraction (Supabase AI GPT-4o mini), and persist generated content securely.
 
 ## 2. Configure magic link authentication
 1. In **Authentication → Providers**, keep only **Email** enabled and toggle **Magic Link**.
