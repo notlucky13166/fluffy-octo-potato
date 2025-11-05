@@ -32,6 +32,10 @@
     "web": {
       "bundler": "metro",
       "favicon": "./assets/favicon.svg"
+    },
+    "extra": {
+      "API_URL": "https://your-project.functions.supabase.co",
+      "STORAGE_BUCKET": "study-uploads"
     }
   }
 }

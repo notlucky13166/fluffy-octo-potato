@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, StyleProp, ViewStyle } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useTheme } from '../theme/ThemeProvider';
 
 interface DashboardCardProps {
@@ -7,28 +8,45 @@ interface DashboardCardProps {
   value: string;
   subtitle?: string;
   accentColor?: string;
+  style?: StyleProp<ViewStyle>;
 }
 
-const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, subtitle, accentColor }) => {
+const DashboardCard: React.FC<DashboardCardProps> = ({ title, value, subtitle, accentColor, style }) => {
   const { colors, spacing, typography } = useTheme();
 
   return (
-    <View style={[styles.container, { backgroundColor: colors.surface, padding: spacing.lg }]}> 
-      <View style={[styles.accent, { backgroundColor: accentColor ?? colors.primary }]} />
-      <Text style={[styles.title, { color: colors.muted, fontSize: typography.fontSize.sm }]}>{title}</Text>
-      <Text style={[styles.value, { color: colors.text, fontSize: typography.fontSize.xl }]}>{value}</Text>
-      {subtitle ? (
-        <Text style={[styles.subtitle, { color: colors.muted, fontSize: typography.fontSize.sm }]}>{subtitle}</Text>
-      ) : null}
-    </View>
+    <LinearGradient
+      colors={[colors.surface, (accentColor ?? colors.primary) + '1A']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={[styles.container, style]}
+    >
+      <View style={[styles.cardContent, { padding: spacing.lg }]}>
+        <View style={[styles.accent, { backgroundColor: accentColor ?? colors.primary }]} />
+        <Text style={[styles.title, { color: colors.muted, fontSize: typography.fontSize.sm }]}>{title}</Text>
+        <Text style={[styles.value, { color: colors.text, fontSize: typography.fontSize.xl }]}>{value}</Text>
+        {subtitle ? (
+          <Text style={[styles.subtitle, { color: colors.muted, fontSize: typography.fontSize.sm }]}>{subtitle}</Text>
+        ) : null}
+      </View>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 18,
+    borderRadius: 22,
     overflow: 'hidden',
-    position: 'relative'
+    position: 'relative',
+    flexGrow: 1,
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 5
+  },
+  cardContent: {
+    flex: 1
   },
   accent: {
     width: 6,
