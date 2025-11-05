@@ -10,9 +10,9 @@ Follow these steps to publish the Expo web build on Netlify with the supplied Su
 ## 2. Configure build settings
 Netlify reads the commands from `netlify.toml`, but double-check the settings during the import flow:
 
-- **Base directory:** leave blank. Netlify will install dependencies from the `app/` subfolder automatically.
-- **Build command:** `npm install --prefix app && npm run --prefix app build:web`
-- **Publish directory:** `app/dist`
+- **Base directory:** `app`
+- **Build command:** `npm install && npm run build:web`
+- **Publish directory:** `dist`
 - **Node version:** Netlify picks up `NODE_VERSION=18` from the config file. Adjust if you require a different runtime.
 
 ## 3. Add environment variables
@@ -29,7 +29,7 @@ The public Supabase keys are already stored in `netlify.toml`. You can also mana
 
 ## 4. Trigger a deploy
 1. Click **Deploy site** to start the first build.
-2. Netlify runs the Expo export command, generating the static site under `app/dist`.
+2. Netlify runs the Expo export command, generating the static site under `dist/` inside the `app/` directory.
 3. After the build succeeds, use the assigned `.netlify.app` URL or add a custom domain.
 
 ## 5. Optional: environment overrides per branch

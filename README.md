@@ -53,9 +53,9 @@ The Expo project is configured for static web export so it can be hosted on Netl
 - The production-ready static site is emitted to `app/dist/`.
 
 ### Netlify configuration
-- **Base directory:** *(leave blank; `netlify.toml` installs dependencies from `app/` automatically)*
-- **Build command:** `npm install --prefix app && npm run --prefix app build:web`
-- **Publish directory:** `app/dist`
+- **Base directory:** `app`
+- **Build command:** `npm install && npm run build:web`
+- **Publish directory:** `dist`
 - **Environment variables:**
   - `EXPO_PUBLIC_SUPABASE_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co`
   - `EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implcmt2eHZ4ZHJneGpjcmZ2aHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjkyOTUsImV4cCI6MjA3NzkwNTI5NX0.zTPCDHxuYuqTYG3chGOOnycF_NuvtMpsB1eXWIC6r_8`
