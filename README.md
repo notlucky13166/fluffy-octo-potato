@@ -51,11 +51,13 @@ The Expo project is configured for static web export so it can be hosted on Netl
 ### Local web build
 - From the `app/` directory run `npm run build:web`.
 - The production-ready static site is emitted to `app/dist/`.
+- If you see a runtime error about missing Expo web support, install the Expo web runtime with `npx expo install @expo/metro-runtime@~3.1.3`.
 
 ### Netlify configuration
 - **Base directory:** `app`
 - **Build command:** `npm install && npm run build:web`
 - **Publish directory:** `dist`
+- **Web runtime dependency:** Keep `@expo/metro-runtime@~3.1.3` in `package.json` (or the matching version for your Expo SDK) so `npm install` on Netlify pulls the required web runtime.
 - **Environment variables:**
   - `EXPO_PUBLIC_SUPABASE_URL=https://jerkvxvxdrgxjcrfvhpn.supabase.co`
   - `EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implcmt2eHZ4ZHJneGpjcmZ2aHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjkyOTUsImV4cCI6MjA3NzkwNTI5NX0.zTPCDHxuYuqTYG3chGOOnycF_NuvtMpsB1eXWIC6r_8`
