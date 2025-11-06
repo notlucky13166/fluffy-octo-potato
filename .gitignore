@@ -1,0 +1,8 @@
+# Node and Expo build artifacts
+app/node_modules/
+app/dist/
+app/.expo/
+app/assets/favicon.png
+
+# OS files
+.DS_Store

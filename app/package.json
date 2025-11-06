@@ -7,7 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "build:web": "expo export -p web --output-dir dist --clear",
+    "generate:favicon": "node scripts/generate-favicon.js",
+    "postinstall": "npm run generate:favicon",
+    "build:web": "npm run generate:favicon && expo export -p web --output-dir dist --clear",
     "lint": "eslint . --ext .ts,.tsx",
     "typecheck": "tsc --noEmit"
   },

@@ -28,7 +28,7 @@ export default () => ({
     },
     web: {
       bundler: 'metro',
-      favicon: './assets/favicon.svg'
+      favicon: './assets/favicon.png'
     },
     extra: {
       API_URL: process.env.EXPO_PUBLIC_FUNCTIONS_URL ?? fallbackFunctionsUrl,
