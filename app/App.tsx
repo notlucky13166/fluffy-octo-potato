@@ -1,8 +1,13 @@
+import '@expo/metro-runtime';
+import './src/polyfills/registerWebModule';
+import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import HomeScreen from './src/screens/HomeScreen';
@@ -60,21 +65,25 @@ export default function App() {
   const status = useAuthStore((state) => state.status);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider>
-        <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-          {status === 'signedIn' ? (
-            <MainTabs />
-          ) : (
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="SignIn" component={SignInScreen} />
-              <Stack.Screen name="SignUp" component={SignUpScreen} />
-              <Stack.Screen name="Mission" component={MissionScreen} />
-            </Stack.Navigator>
-          )}
-        </NavigationContainer>
-      </ThemeProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider>
+            <NavigationContainer theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+              <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+              {status === 'signedIn' ? (
+                <MainTabs />
+              ) : (
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                  <Stack.Screen name="SignIn" component={SignInScreen} />
+                  <Stack.Screen name="SignUp" component={SignUpScreen} />
+                  <Stack.Screen name="Mission" component={MissionScreen} />
+                </Stack.Navigator>
+              )}
+            </NavigationContainer>
+          </ThemeProvider>
+        </QueryClientProvider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
 }

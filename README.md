@@ -52,6 +52,7 @@ The Expo project is configured for static web export so it can be hosted on Netl
 - From the `app/` directory run `npm run build:web`.
 - The production-ready static site is emitted to `app/dist/`.
 - If you see a runtime error about missing Expo web support, install the Expo web runtime with `npx expo install @expo/metro-runtime@~3.1.3`.
+- The build step auto-generates a minimal PNG favicon (`npm run generate:favicon`) so Expo static export has the asset it expects.
 
 ### Netlify configuration
 - **Base directory:** `app`
