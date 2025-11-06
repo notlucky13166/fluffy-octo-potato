@@ -1,4 +1,11 @@
 [build]
-  command = "npm install --prefix app && npm run --prefix app build:web"
-  publish = "app/dist"
-  environment = { NODE_VERSION = "18" }
+  base = "app"
+  command = "npm install && npm run build:web"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+  EXPO_PUBLIC_SUPABASE_URL = "https://jerkvxvxdrgxjcrfvhpn.supabase.co"
+  EXPO_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Implcmt2eHZ4ZHJneGpjcmZ2aHBuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIzMjkyOTUsImV4cCI6MjA3NzkwNTI5NX0.zTPCDHxuYuqTYG3chGOOnycF_NuvtMpsB1eXWIC6r_8"
+  EXPO_PUBLIC_FUNCTIONS_URL = "https://jerkvxvxdrgxjcrfvhpn.supabase.co/functions/v1"
+  EXPO_PUBLIC_SUPABASE_STORAGE_BUCKET = "study-uploads"
