@@ -1,3 +1,4 @@
+import '@expo/metro-runtime';
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
