@@ -1,13 +1,16 @@
-import { AppRegistry, Platform } from 'react-native';
+import { Platform } from 'react-native';
 
-interface WebAppRegistry extends typeof AppRegistry {
-  registerWebModule?: (id: string, loader: () => unknown) => unknown;
+type RegisterWebModule = (id: string, loader: () => unknown) => unknown;
+
+interface ExpoModulesCore {
+  registerWebModule?: RegisterWebModule;
 }
 
-const appRegistry = AppRegistry as WebAppRegistry;
-
 if (Platform.OS === 'web') {
-  if (typeof appRegistry.registerWebModule !== 'function') {
-    appRegistry.registerWebModule = (_id, loader) => loader();
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const expoModulesCore = require('expo-modules-core') as ExpoModulesCore;
+
+  if (typeof expoModulesCore.registerWebModule !== 'function') {
+    expoModulesCore.registerWebModule = (_id, loader) => loader();
   }
 }
