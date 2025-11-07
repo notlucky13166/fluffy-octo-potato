@@ -7,6 +7,7 @@ interface GenerateQuizPayload {
   difficulty: 'easy' | 'medium' | 'hard' | 'adaptive';
   questionTypes: string[];
   references?: string[];
+  folderId?: string;
 }
 
 interface GenerateQuizResponse {
@@ -19,6 +20,7 @@ interface GenerateFlashcardsPayload {
   title: string;
   files: string[];
   notes?: string;
+  folderId?: string;
 }
 
 interface GenerateFlashcardsResponse {
