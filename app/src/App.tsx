@@ -1,4 +1,5 @@
 import { CallToAction } from './components/CallToAction';
+import { AuthSection } from './components/AuthSection';
 import { Features } from './components/Features';
 import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
@@ -15,6 +16,7 @@ export const App = () => {
         <Features />
         <Programs />
         <Testimonials />
+        <AuthSection />
         <CallToAction />
       </main>
       <Footer />

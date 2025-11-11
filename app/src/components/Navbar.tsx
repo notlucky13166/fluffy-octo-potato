@@ -4,7 +4,8 @@ const links = [
   { href: '#features', label: 'Platform' },
   { href: '#programs', label: 'Programs' },
   { href: '#testimonials', label: 'Stories' },
-  { href: '#demo', label: 'Get a demo' }
+  { href: '#demo', label: 'Get a demo' },
+  { href: '#auth', label: 'Log in' }
 ];
 
 export const Navbar = () => (
@@ -21,8 +22,8 @@ export const Navbar = () => (
           </a>
         ))}
       </nav>
-      <a className="button secondary navbar-cta" href="#demo">
-        Request access
+      <a className="button secondary navbar-cta" href="#auth">
+        Sign up
       </a>
     </div>
   </header>
