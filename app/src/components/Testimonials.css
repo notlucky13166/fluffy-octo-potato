@@ -1,0 +1,16 @@
+.testimonial-grid {
+  align-items: stretch;
+}
+
+.testimonial-role {
+  margin: 4px 0 0;
+  color: #475467;
+  font-size: 15px;
+}
+
+.testimonial::before {
+  content: '“';
+  font-size: 56px;
+  line-height: 1;
+  color: rgba(37, 99, 235, 0.15);
+}

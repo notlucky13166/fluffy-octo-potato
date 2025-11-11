@@ -1,0 +1,30 @@
+.footer-top {
+  display: grid;
+  gap: 40px;
+}
+
+.footer-heading {
+  margin: 0 0 16px;
+  font-weight: 600;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.footer-top p {
+  margin: 16px 0 0;
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.footer-bottom-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-bottom-links a {
+  color: inherit;
+}
+
+@media (min-width: 960px) {
+  .footer-top {
+    grid-template-columns: 0.8fr 1.2fr;
+  }
+}

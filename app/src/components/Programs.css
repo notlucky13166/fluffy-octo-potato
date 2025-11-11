@@ -1,0 +1,25 @@
+.program-card {
+  display: grid;
+  gap: 20px;
+}
+
+.program-duration {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1d4ed8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.program-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.program-footer a {
+  color: inherit;
+}
