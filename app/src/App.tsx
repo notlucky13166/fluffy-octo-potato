@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { Hero } from './components/Hero';
 import { Navbar } from './components/Navbar';
 import { Programs } from './components/Programs';
-import { Testimonials } from './components/Testimonials';
 
 export const App = () => {
   return (
@@ -15,7 +14,6 @@ export const App = () => {
         <Hero />
         <Features />
         <Programs />
-        <Testimonials />
         <AuthSection />
         <CallToAction />
       </main>

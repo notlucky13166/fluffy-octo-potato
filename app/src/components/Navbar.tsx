@@ -3,7 +3,6 @@ import './Navbar.css';
 const links = [
   { href: '#features', label: 'Study tools' },
   { href: '#programs', label: 'Tracks' },
-  { href: '#testimonials', label: 'Success stories' },
   { href: '#demo', label: 'Guided session' },
   { href: '#auth', label: 'Log in' }
 ];

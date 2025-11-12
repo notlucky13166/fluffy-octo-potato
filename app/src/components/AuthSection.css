@@ -76,15 +76,50 @@
 }
 
 .auth-link {
+  background: none;
+  border: none;
   color: #1d4ed8;
   font-weight: 600;
   font-size: 14px;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .auth-note {
   margin: 0;
   color: #475467;
   font-size: 14px;
+}
+
+.auth-status {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.auth-status.success {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1d4ed8;
+}
+
+.auth-status.error {
+  background: rgba(248, 113, 113, 0.12);
+  color: #b91c1c;
+}
+
+.auth-status.info {
+  background: rgba(148, 163, 184, 0.16);
+  color: #334155;
 }
 
 @media (max-width: 640px) {

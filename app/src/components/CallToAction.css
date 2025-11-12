@@ -58,6 +58,24 @@
   appearance: none;
 }
 
+.cta-status {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.cta-status.success {
+  background: rgba(59, 130, 246, 0.16);
+  color: #bfdbfe;
+}
+
+.cta-status.error {
+  background: rgba(239, 68, 68, 0.18);
+  color: #fecaca;
+}
+
 @media (min-width: 960px) {
   .cta {
     grid-template-columns: 1.2fr 1fr;

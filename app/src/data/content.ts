@@ -37,23 +37,3 @@ export const courseTracks = [
   }
 ];
 
-export const testimonials = [
-  {
-    quote:
-      '“I used the STEM Finals Sprint to prep for calc and physics. The AI coach spotted exactly where I was guessing and drilled me until the steps clicked.”',
-    name: 'Jordan Lee',
-    role: 'Sophomore, University of Michigan'
-  },
-  {
-    quote:
-      '“The accountability pings are the only reason I kept my study streak alive during soccer season. My GPA jumped from 2.9 to 3.6.”',
-    name: 'Samira Patel',
-    role: 'Senior, North Ridge High School'
-  },
-  {
-    quote:
-      '“I upload drafts and get suggestions in minutes. It’s like having a writing center in my laptop at 2 a.m.”',
-    name: 'Diego Alvarez',
-    role: 'First-year, Mesa Community College'
-  }
-];
