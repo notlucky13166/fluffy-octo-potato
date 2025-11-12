@@ -37,7 +37,7 @@ export const apiClient = async <T = unknown>(path: string, init?: RequestInit): 
   }
 
   if (!response.ok) {
-    const message = (data as { error?: string } | null)?.error ?? text || 'Request failed';
+    const message = ((data as { error?: string } | null)?.error ?? text) || 'Request failed';
     const apiError = new ApiError(message);
     apiError.status = response.status;
     throw apiError;
