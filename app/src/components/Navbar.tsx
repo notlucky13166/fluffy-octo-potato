@@ -1,10 +1,10 @@
 import './Navbar.css';
 
 const links = [
-  { href: '#features', label: 'Platform' },
-  { href: '#programs', label: 'Programs' },
-  { href: '#testimonials', label: 'Stories' },
-  { href: '#demo', label: 'Get a demo' },
+  { href: '#features', label: 'Study tools' },
+  { href: '#programs', label: 'Tracks' },
+  { href: '#testimonials', label: 'Success stories' },
+  { href: '#demo', label: 'Guided session' },
   { href: '#auth', label: 'Log in' }
 ];
 
@@ -23,7 +23,7 @@ export const Navbar = () => (
         ))}
       </nav>
       <a className="button secondary navbar-cta" href="#auth">
-        Sign up
+        Start for free
       </a>
     </div>
   </header>

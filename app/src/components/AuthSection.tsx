@@ -5,19 +5,19 @@ export const AuthSection = () => (
     <div className="container">
       <div className="auth-shell gradient-border">
         <div className="auth-header">
-          <span className="badge">Secure workspace access</span>
-          <h2>Log in or launch your AetherLearn hub.</h2>
+          <span className="badge">Student access</span>
+          <h2>Log in or start your free study hub.</h2>
           <p>
-            Use your work email to resume where you left off or activate a new pilot for your team. All accounts include
-            SSO, audit trails, and SOC 2-aligned safeguards.
+            Jump back into your saved plans or spin up a fresh space for the semester. Every account includes AI tutoring,
+            streak tracking, and private storage for your notes.
           </p>
         </div>
         <div className="auth-panels">
           <form className="auth-form" aria-label="Log in to existing workspace">
             <h3>Log in</h3>
             <label>
-              Work email
-              <input type="email" name="login-email" placeholder="you@company.com" autoComplete="email" required />
+              School email
+              <input type="email" name="login-email" placeholder="you@student.edu" autoComplete="email" required />
             </label>
             <label>
               Password
@@ -46,8 +46,8 @@ export const AuthSection = () => (
               <input type="text" name="signup-name" placeholder="Ada Lovelace" autoComplete="name" required />
             </label>
             <label>
-              Work email
-              <input type="email" name="signup-email" placeholder="you@company.com" autoComplete="email" required />
+              School email
+              <input type="email" name="signup-email" placeholder="you@student.edu" autoComplete="email" required />
             </label>
             <label>
               Create password
@@ -60,21 +60,21 @@ export const AuthSection = () => (
               />
             </label>
             <label>
-              Cohort size
+              Study group size
               <select name="signup-size" defaultValue="" required>
                 <option value="" disabled>
                   Select an option
                 </option>
-                <option value="1-20">1 - 20 learners</option>
-                <option value="21-50">21 - 50 learners</option>
-                <option value="51-100">51 - 100 learners</option>
-                <option value="101+">101+ learners</option>
+                <option value="solo">Just me</option>
+                <option value="2-5">2 - 5 friends</option>
+                <option value="6-10">6 - 10 classmates</option>
+                <option value="11+">11+ classmates</option>
               </select>
             </label>
             <button type="submit" className="button secondary">
-              Create workspace
+              Create study hub
             </button>
-            <p className="auth-note">No credit card required. 30-day pilot with full analytics included.</p>
+            <p className="auth-note">No credit card required. Free for students with unlimited planning and tutoring minutes.</p>
           </form>
         </div>
       </div>

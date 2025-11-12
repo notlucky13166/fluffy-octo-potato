@@ -6,54 +6,54 @@ export const Hero = () => {
       <div className="container">
         <div className="hero-content gradient-border">
           <div className="hero-body">
-            <span className="badge">Future-ready learning platform</span>
-            <h1>Design learning journeys that feel handcrafted for every team.</h1>
+            <span className="badge">AI study partner</span>
+            <h1>Crush your classes with smarter study sessions.</h1>
             <p>
-              Craft transformational cohort experiences that blend live workshops, async labs, and AI copilots—all orchestrated
-              from a single command center.
+              Build a plan for every exam, get instant tutoring on tough problems, and keep your motivation high with daily
+              check-ins—no campus appointment required.
             </p>
             <div className="hero-actions">
               <a className="button primary" href="#programs">
-                Explore programs
+                Browse study tracks
               </a>
               <a className="button secondary" href="#demo">
-                Talk to an advisor
+                Try a guided session
               </a>
             </div>
             <dl className="hero-stats">
               <div>
-                <dt>Teams activated</dt>
-                <dd>120+</dd>
+                <dt>Study hours logged</dt>
+                <dd>85k+</dd>
               </div>
               <div>
-                <dt>Average satisfaction</dt>
-                <dd>4.9/5</dd>
+                <dt>Average grade lift</dt>
+                <dd>+1.4 GPA</dd>
               </div>
               <div>
-                <dt>Launch timeline</dt>
-                <dd>&lt; 3 weeks</dd>
+                <dt>Daily streaks</dt>
+                <dd>32k and counting</dd>
               </div>
             </dl>
           </div>
           <div className="hero-visual">
             <div className="hero-card">
-              <p className="hero-card-title">Cohort pulse</p>
+              <p className="hero-card-title">Tonight's plan</p>
               <div className="hero-card-metric">
-                <span>Engagement</span>
-                <strong>92%</strong>
+                <span>Calc II review</span>
+                <strong>45 min</strong>
               </div>
               <div className="hero-card-metric">
-                <span>Projects shipped</span>
-                <strong>48</strong>
+                <span>Flashcards mastered</span>
+                <strong>38/40</strong>
               </div>
-              <div className="hero-card-footnote">Real-time telemetry across every learning loop.</div>
+              <div className="hero-card-footnote">AI adjusts your pace as you conquer topics.</div>
             </div>
             <div className="hero-card secondary">
               <p className="hero-card-title">AI Coach</p>
               <p className="hero-card-description">
-                “Here’s a warm-up activity to help your cohort practice storytelling before tomorrow’s stakeholder demo.”
+                “Let’s tackle the hardest derivative step-by-step, then I’ll quiz you with exam-style problems.”
               </p>
-              <div className="hero-card-footnote">Powered by contextual prompts &amp; team rituals.</div>
+              <div className="hero-card-footnote">Always-on help that sounds like a supportive peer.</div>
             </div>
           </div>
         </div>

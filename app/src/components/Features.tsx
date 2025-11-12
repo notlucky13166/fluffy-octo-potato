@@ -5,11 +5,11 @@ export const Features = () => (
   <section className="section" id="features">
     <div className="container">
       <div className="section-header">
-        <span className="badge">Why teams choose AetherLearn</span>
-        <h2 className="section-title">An operating system for transformational learning</h2>
+        <span className="badge">Why students stick with it</span>
+        <h2 className="section-title">Everything you need to study, all in one place</h2>
         <p className="section-subtitle">
-          Align every stakeholder around measurable outcomes while giving learners an experience that feels handcrafted for
-          them.
+          AetherLearn combines smart planning tools, friendly accountability, and quick explanations so exam weeks feel calm
+          instead of chaotic.
         </p>
       </div>
       <div className="grid cols-3">

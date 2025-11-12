@@ -1,59 +1,59 @@
 export const features = [
   {
-    title: 'Personalized Learning Paths',
+    title: 'Adaptive study plans',
     description:
-      'Meet every learner where they are with adaptive pathways that blend instructor-led sessions, interactive labs, and AI-assisted tutoring.'
+      'Drop in your syllabus and let AetherLearn map the perfect mix of review, practice, and breaks so you never cram the night before.'
   },
   {
-    title: 'Collaborative Cohorts',
+    title: 'Ask-anything AI tutor',
     description:
-      'Build vibrant peer communities with live discussion rooms, project squads, and weekly retros that keep momentum high.'
+      'Get instant walkthroughs, solved examples, and quick refreshers whenever you’re stuck—available 24/7 on desktop and mobile.'
   },
   {
-    title: 'Outcomes You Can Measure',
+    title: 'Accountability that sticks',
     description:
-      'Track skill acquisition in real-time with dashboards that surface mastery scores, engagement streaks, and portfolio-ready artifacts.'
+      'Stay on track with streaks, focus timers, and supportive study groups that celebrate every milestone you hit.'
   }
 ];
 
 export const courseTracks = [
   {
-    name: 'AI Engineering Immersive',
-    duration: '16-week journey',
+    name: 'STEM Finals Sprint',
+    duration: '3-week boost',
     blurb:
-      'Ship production-ready AI features while building a professional portfolio guided by senior mentors and real stakeholders.'
+      'Master calculus, physics, and chemistry with nightly problem sets, video breakdowns, and graded practice quizzes tailored to your weak spots.'
   },
   {
-    name: 'Full-Stack Web Catalyst',
-    duration: '12-week accelerator',
+    name: 'Essay & Research Lab',
+    duration: '4-week workshop',
     blurb:
-      'From UX discovery to cloud deployment, master the modern product pipeline with a cadence that mirrors real-world sprints.'
+      'Draft thesis statements, outline arguments, and get instant feedback on every paragraph before you hit submit.'
   },
   {
-    name: 'Product Leadership Lab',
-    duration: '8-week intensive',
+    name: 'Intro to CS Companion',
+    duration: '8-week guide',
     blurb:
-      'Translate vision into shipped value through strategy workshops, customer narrative practice, and decision-making frameworks.'
+      'Pair each lecture with hands-on coding challenges, debugging help, and concept flashcards to cement the fundamentals.'
   }
 ];
 
 export const testimonials = [
   {
     quote:
-      '“AetherLearn reframed how our org thinks about skilling. Our engineers shipped a new AI assistant in half the time after the accelerator.”',
-    name: 'Priya Desai',
-    role: 'Director of Engineering, Luma Systems'
+      '“I used the STEM Finals Sprint to prep for calc and physics. The AI coach spotted exactly where I was guessing and drilled me until the steps clicked.”',
+    name: 'Jordan Lee',
+    role: 'Sophomore, University of Michigan'
   },
   {
     quote:
-      '“The cohort rituals kept our team energized. It felt like we were learning alongside future teammates, not just consuming modules.”',
-    name: 'Marcus Chen',
-    role: 'Staff Product Manager, Fluxloop'
+      '“The accountability pings are the only reason I kept my study streak alive during soccer season. My GPA jumped from 2.9 to 3.6.”',
+    name: 'Samira Patel',
+    role: 'Senior, North Ridge High School'
   },
   {
     quote:
-      '“Within weeks our junior devs were leading demos. The project-based approach built confidence faster than any other platform we tried.”',
-    name: 'Amelia Torres',
-    role: 'Engineering Enablement Lead, Northwind Labs'
+      '“I upload drafts and get suggestions in minutes. It’s like having a writing center in my laptop at 2 a.m.”',
+    name: 'Diego Alvarez',
+    role: 'First-year, Mesa Community College'
   }
 ];

@@ -5,11 +5,11 @@ export const Programs = () => (
   <section className="section" id="programs">
     <div className="container">
       <div className="section-header">
-        <span className="badge">Cohort experiences</span>
-        <h2 className="section-title">Launch a flagship program in weeks, not quarters</h2>
+        <span className="badge">Study tracks</span>
+        <h2 className="section-title">Pick the path that fits your next big test</h2>
         <p className="section-subtitle">
-          Mix and match immersive tracks designed around emerging skills. Every program comes with curated playbooks,
-          dedicated facilitators, and embedded AI copilots.
+          Each track blends quick lessons, spaced-repetition drills, and AI check-ins so you know exactly what to review each
+          day.
         </p>
       </div>
       <div className="grid cols-3">
@@ -21,7 +21,7 @@ export const Programs = () => (
             </header>
             <p className="card-description">{track.blurb}</p>
             <div className="program-footer">
-              <a href="#demo">View syllabus</a>
+              <a href="#demo">Preview schedule</a>
               <span aria-hidden="true">→</span>
             </div>
           </article>
